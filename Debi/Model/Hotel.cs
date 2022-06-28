@@ -9,7 +9,7 @@ namespace Debi.Model
         private int hotelID;
         private string name;
         private string image;
-        private int contact;
+        private string contact;
         private string city;
         private string country;
         private string address;
@@ -18,7 +18,7 @@ namespace Debi.Model
         public int HotelID { get => hotelID; set => hotelID = value; }
         public string Name { get => name; set => name = value; }
         public string Image { get => image; set => image = value; }
-        public int Contact { get => contact; set => contact = value; }
+        public string Contact { get => contact; set => contact = value; }
         public string City { get => city; set => city = value; }
         public string Country { get => country; set => country = value; }
         public string Address { get => address; set => address = value; }

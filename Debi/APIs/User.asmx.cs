@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
@@ -29,11 +31,11 @@ namespace Debi.APIs
             if (conn != null)
             {
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = $"SELECT user_id FROM auth INNER JOIN user on user.auth_id = auth.auth_id WHERE email='{email}' and PASSWORD={password}";
-                MySqlDataReader reader = cmd.ExecuteReader();
+                cmd.CommandText = $"SELECT user_id FROM auth INNER JOIN user on user.auth_id = auth.auth_id WHERE email='{email}' and PASSWORD='{password}'";
 
                 try
                 {
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
                         int id = reader.GetInt32("user_id");
@@ -51,9 +53,8 @@ namespace Debi.APIs
                 }
                 finally
                 {
-                    reader.Close();
                     cmd.Cancel();
-                    
+
                 }
             }
             else
@@ -77,11 +78,15 @@ namespace Debi.APIs
                 {
                     if (reader.Read())
                     {
+                        System.Diagnostics.Debug.WriteLine("START");
+                        string base64 = ImageToBase64(reader.GetString("image"));
+                        System.Diagnostics.Debug.WriteLine("END");
+
                         Model.User user = new Model.User
                         {
                             UserId = reader.GetInt32("user_id"),
                             Name = reader.GetString("name"),
-                            Image = reader.GetString("image"),
+                            Image = base64,
                             Contact = reader.GetInt32("contact"),
                             Address = reader.GetString("address"),
                             Nic = reader.GetDouble("nic"),
@@ -107,7 +112,7 @@ namespace Debi.APIs
                 {
                     reader.Close();
                     cmd.Cancel();
-                    
+
                 }
             }
             else
@@ -132,13 +137,18 @@ namespace Debi.APIs
 
                 try
                 {
+
                     while (reader.Read())
                     {
+                        System.Diagnostics.Debug.WriteLine("START");
+                        string base64 = ImageToBase64(reader.GetString("image"));
+                        System.Diagnostics.Debug.WriteLine("END");
+
                         Model.User user = new Model.User
                         {
                             UserId = reader.GetInt32("user_id"),
                             Name = reader.GetString("name"),
-                            Image = reader.GetString("image"),
+                            Image = base64,
                             Contact = reader.GetInt32("contact"),
                             Address = reader.GetString("address"),
                             Nic = reader.GetDouble("nic"),
@@ -148,12 +158,15 @@ namespace Debi.APIs
                             Password = reader.GetString("password"),
                             Role = reader.GetString("role")
                         };
-                        users.Add(user) ;
+                        users.Add(user);
                     }
 
-                    if(users.Count != 0){
+                    if (users.Count != 0)
+                    {
                         return users;
-                    }else{
+                    }
+                    else
+                    {
                         return "No user found";
                     }
                 }
@@ -165,7 +178,7 @@ namespace Debi.APIs
                 {
                     reader.Close();
                     cmd.Cancel();
-                    
+
                 }
             }
             else
@@ -179,12 +192,18 @@ namespace Debi.APIs
         [System.Xml.Serialization.XmlInclude(typeof(Model.User))]
         public object post_user(string email, string password, string name, string image, int contact, string address, long nic, int roleID)
         {
-
+            
+            //return base64;
             if (conn != null)
             {
                 MySqlCommand cmd = conn.CreateCommand();
                 try
                 {
+
+                    System.Diagnostics.Debug.WriteLine("START");
+                    string imageName = Base64ToImage(image);
+                    System.Diagnostics.Debug.WriteLine("END");
+
                     // create auth
                     cmd.CommandText = "INSERT INTO `auth`( `email`, `password`) VALUES (@email,@password)";
                     cmd.Parameters.AddWithValue("@email", email);
@@ -197,7 +216,7 @@ namespace Debi.APIs
                         "INSERT INTO `user`(`name`, `image`, `contact`, `address`, `nic`, `role_id`, `auth_id`) " +
                         "VALUES (@name,@image,@contact,@address,@nic,@roleID,@authID)";
                     cmd.Parameters.AddWithValue("@name", name);
-                    cmd.Parameters.AddWithValue("@image", image);
+                    cmd.Parameters.AddWithValue("@image", imageName);
                     cmd.Parameters.AddWithValue("@contact", contact);
                     cmd.Parameters.AddWithValue("@address", address);
                     cmd.Parameters.AddWithValue("@nic", nic);
@@ -214,7 +233,7 @@ namespace Debi.APIs
                 finally
                 {
                     cmd.Cancel();
-                    
+
                 }
             }
             else
@@ -234,6 +253,10 @@ namespace Debi.APIs
                 MySqlCommand cmd = conn.CreateCommand();
                 try
                 {
+                    System.Diagnostics.Debug.WriteLine("START");
+                    string imageName = Base64ToImage(image);
+                    System.Diagnostics.Debug.WriteLine("END");
+
                     cmd.CommandText = "UPDATE `user` SET " +
                         "`name`= @name," +
                         "`image`= @image," +
@@ -243,7 +266,7 @@ namespace Debi.APIs
                         "`role_id`= @roleID " +
                         "WHERE `user_id` = @userID ";
                     cmd.Parameters.AddWithValue("@name", name);
-                    cmd.Parameters.AddWithValue("@image", image);
+                    cmd.Parameters.AddWithValue("@image", imageName);
                     cmd.Parameters.AddWithValue("@contact", contact);
                     cmd.Parameters.AddWithValue("@address", address);
                     cmd.Parameters.AddWithValue("@nic", nic);
@@ -261,7 +284,7 @@ namespace Debi.APIs
                 finally
                 {
                     cmd.Cancel();
-                    
+
                 }
             }
             else
@@ -282,11 +305,11 @@ namespace Debi.APIs
                 try
                 {
                     cmd.CommandText = "UPDATE `auth` SET " +
-                        "`password`= @password " + 
+                        "`password`= @password " +
                         "WHERE `email` = @email ";
                     cmd.Parameters.AddWithValue("@password", password);
                     cmd.Parameters.AddWithValue("@email", email);
-                   
+
                     cmd.ExecuteNonQuery();
 
                     return get_user(userID);
@@ -298,7 +321,7 @@ namespace Debi.APIs
                 finally
                 {
                     cmd.Cancel();
-                    
+
                 }
             }
             else
@@ -316,10 +339,10 @@ namespace Debi.APIs
             {
                 MySqlCommand cmd = conn.CreateCommand();
                 try
-                {   
+                {
                     Model.User deletedUser = (Model.User)get_user(userID);
 
-              
+
                     cmd.CommandText = "DELETE FROM `auth` WHERE auth_id = " + deletedUser.AuthID;
 
                     if (cmd.ExecuteNonQuery() == 1)
@@ -331,7 +354,7 @@ namespace Debi.APIs
                         return ("User not found");
                     }
 
-                
+
                 }
                 catch (Exception e)
                 {
@@ -340,13 +363,61 @@ namespace Debi.APIs
                 finally
                 {
                     cmd.Cancel();
-                    
+
                 }
             }
             else
             {
                 return ("Database Error");
             }
+        }
+
+        private string Base64ToImage(string img)
+        {
+            try
+            {
+                byte[] imgbytes = Convert.FromBase64String(img);
+                string DefaultImagePath = "C:\\Users\\mnriz\\source\\repos\\Debi\\Debi\\Images\\";
+
+                using (MemoryStream ms = new MemoryStream(imgbytes))
+                {
+                    Image pic = Image.FromStream(ms);
+
+                    string path = DefaultImagePath + $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.jpg";
+                    pic.Save(path);
+                    return path;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            return "";
+        }
+        private string ImageToBase64(string img)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine( img);
+                using (Image image = Image.FromFile(img))
+                {
+                    using (MemoryStream m = new MemoryStream())
+                    {
+                        image.Save(m, image.RawFormat);
+                        byte[] imageBytes = m.ToArray();
+
+                        // Convert byte[] to Base64 String
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        return base64String;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return "";
         }
     }
 }

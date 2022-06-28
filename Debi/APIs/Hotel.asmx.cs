@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
@@ -33,14 +35,19 @@ namespace Debi.APIs
                 MySqlDataReader reader = cmd.ExecuteReader();
                 try{
                     if (reader.Read()){
+
+                        System.Diagnostics.Debug.WriteLine("START");
+                        string base64 = ImageToBase64(reader.GetString("image"));
+                        System.Diagnostics.Debug.WriteLine("END");
+
                         Model.Hotel hotel = new Model.Hotel()
                         {
                             HotelID = reader.GetInt32("hotel_id"),
                             Address = reader.GetString("address"),
                             City = reader.GetString("city"),
-                            Contact = reader.GetInt32("contact"),
+                            Contact = reader.GetString("contact"),
                             Country = reader.GetString("country"),
-                            Image = reader.GetString("image"),
+                            Image = base64,
                             Name = reader.GetString("name"),
                             UserID = reader.GetInt32("user_id"),
                         };
@@ -73,14 +80,19 @@ namespace Debi.APIs
 
                 try{ 
                     while (reader.Read()){
+
+                        System.Diagnostics.Debug.WriteLine("START");
+                        string base64 = ImageToBase64(reader.GetString("image"));
+                        System.Diagnostics.Debug.WriteLine("END");
+
                         Model.Hotel hotel = new Model.Hotel
                         {
                             HotelID = reader.GetInt32("hotel_id"),
                             Address = reader.GetString("address"),
                             City = reader.GetString("city"),
-                            Contact = reader.GetInt32("contact"),
+                            Contact = reader.GetString("contact"),
                             Country = reader.GetString("country"),
-                            Image = reader.GetString("image"),
+                            Image = base64,
                             Name = reader.GetString("name"),
                             UserID = reader.GetInt32("user_id"),
                         };
@@ -213,10 +225,15 @@ namespace Debi.APIs
         //put hotel
         [WebMethod]
         [System.Xml.Serialization.XmlInclude(typeof(Model.Hotel))]
-        public object put_hotel(int hotelID, string name, string image, int contact, string city, string country, string address, long userID){
+        public object put_hotel(int hotelID, string name, string image, string contact, string city, string country, string address, long userID){
             if (conn != null){
                 MySqlCommand cmd = conn.CreateCommand();
                 try{
+
+                    System.Diagnostics.Debug.WriteLine("START");
+                    string imageName = Base64ToImage(image);
+                    System.Diagnostics.Debug.WriteLine("END");
+
                     cmd.CommandText = "UPDATE `hotel` SET " +
                         "`name`= @name," +
                         "`image`= @image," +
@@ -227,7 +244,7 @@ namespace Debi.APIs
                         "`user_id`= @userID " +
                         "WHERE hotel_id = @hotelID";
                     cmd.Parameters.AddWithValue("@name", name);
-                    cmd.Parameters.AddWithValue("@image", image);
+                    cmd.Parameters.AddWithValue("@image", imageName);
                     cmd.Parameters.AddWithValue("@contact", contact);
                     cmd.Parameters.AddWithValue("@city", city);
                     cmd.Parameters.AddWithValue("@country", country);
@@ -250,7 +267,7 @@ namespace Debi.APIs
         //post hotel
         [WebMethod]
         [System.Xml.Serialization.XmlInclude(typeof(Model.Hotel))]
-        public object post_hotel(string name, string image, int contact, string city, string country, string address, long userID)
+        public object post_hotel(string name, string image, string contact, string city, string country, string address, long userID)
         {
 
             if (conn != null)
@@ -258,11 +275,15 @@ namespace Debi.APIs
                 MySqlCommand cmd = conn.CreateCommand();
                 try
                 {
+                    System.Diagnostics.Debug.WriteLine("START");
+                    string imageName = Base64ToImage(image);
+                    System.Diagnostics.Debug.WriteLine("END");
+
                     cmd.CommandText = "INSERT INTO" +
                         "`hotel`(`name`, `image`, `contact`, `city`, `country`, `address`, `user_id`) " +
                         "VALUES (@name,@image,@contact,@city,@country,@address,@user_id)";
                     cmd.Parameters.AddWithValue("@name", name);
-                    cmd.Parameters.AddWithValue("@image", image);
+                    cmd.Parameters.AddWithValue("@image", imageName);
                     cmd.Parameters.AddWithValue("@contact", contact);
                     cmd.Parameters.AddWithValue("@address", address);
                     cmd.Parameters.AddWithValue("@city", city);
@@ -285,6 +306,54 @@ namespace Debi.APIs
             {
                 return ("Database Error");
             }
+        }
+
+        private string Base64ToImage(string img)
+        {
+            try
+            {
+                byte[] imgbytes = Convert.FromBase64String(img);
+                string DefaultImagePath = "C:\\Users\\mnriz\\source\\repos\\Debi\\Debi\\Images\\";
+
+                using (MemoryStream ms = new MemoryStream(imgbytes))
+                {
+                    Image pic = Image.FromStream(ms);
+
+                    string path = DefaultImagePath + $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.jpg";
+                    pic.Save(path);
+                    return path;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            return "";
+        }
+        private string ImageToBase64(string img)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine(img);
+                using (Image image = Image.FromFile(img))
+                {
+                    using (MemoryStream m = new MemoryStream())
+                    {
+                        image.Save(m, image.RawFormat);
+                        byte[] imageBytes = m.ToArray();
+
+                        // Convert byte[] to Base64 String
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        return base64String;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return "";
         }
     }
 }
