@@ -19,9 +19,65 @@ namespace Debi.APIs
     [System.Web.Script.Services.ScriptService]
     public class Hotel : WebService
     {
-
         //Connect database
         readonly MySqlConnection conn = new Config().db_connect();
+        
+        //get hotel by user
+        [WebMethod]
+        [System.Xml.Serialization.XmlInclude(typeof(Model.Hotel))]
+        public Object get_hotel_user(int id)
+        {
+            if (conn != null)
+            {
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT * FROM hotel " +
+                    " INNER JOIN user ON hotel.user_id = user.user_id " +
+                    " WHERE user.user_id = " + id;
+                MySqlDataReader reader = cmd.ExecuteReader();
+                try
+                {
+                    if (reader.Read())
+                    {
+
+                        System.Diagnostics.Debug.WriteLine("START");
+                        string base64 = ImageToBase64(reader.GetString("image"));
+                        System.Diagnostics.Debug.WriteLine("END");
+
+                        Model.Hotel hotel = new Model.Hotel()
+                        {
+                            HotelID = reader.GetInt32("hotel_id"),
+                            Address = reader.GetString("address"),
+                            City = reader.GetString("city"),
+                            Contact = reader.GetString("contact"),
+                            Country = reader.GetString("country"),
+                            Image = base64,
+                            Name = reader.GetString("name"),
+                            UserID = reader.GetInt32("user_id"),
+                        };
+                        return hotel;
+                    }
+                    else
+                    {
+                        return "No hotel found";
+                    }
+                }
+                catch (Exception e)
+                {
+                    return e.Message.ToString();
+                }
+                finally
+                {
+                    reader.Close();
+                    cmd.Cancel();
+                }
+            }
+            else
+            {
+                return ("Database Error");
+            }
+
+
+        }
 
         //get one hotel
         [WebMethod]

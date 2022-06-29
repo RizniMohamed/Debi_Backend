@@ -99,7 +99,7 @@ namespace Debi.APIs
         //get all rooms
         [WebMethod]
         [System.Xml.Serialization.XmlInclude(typeof(List<Model.Room>))]
-        public Object get_rooms()
+        public Object get_rooms(int id)
         {
             if (conn != null)
             {
@@ -109,7 +109,8 @@ namespace Debi.APIs
                     "INNER JOIN room_type ON room_type.roomtype_id = room.roomtype_id " +
                     "INNER JOIN room_facility ON room.room_id = room_facility.room_id " +
                     "INNER JOIN facility ON facility.facility_id = room_facility.facility_id " +
-                    "GROUP BY (room.room_id)";
+                    "WHERE room.hotel_id = " + id + " " +
+                    "GROUP BY (room.room_id) ";
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 try
@@ -145,7 +146,6 @@ namespace Debi.APIs
                             Roomtype = reader.GetString("roomtype"),
                             Roomtype_id = reader.GetInt32("roomtype_id"),
                             Facilities = facilities,
-
                         };
                         rooms.Add(room);
                     }

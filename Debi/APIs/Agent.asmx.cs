@@ -21,6 +21,54 @@ namespace Debi.APIs
         //Connect database
         readonly MySqlConnection conn = new Config().db_connect();
 
+        private string Base64ToImage(string img)
+        {
+            try
+            {
+                byte[] imgbytes = Convert.FromBase64String(img);
+                string DefaultImagePath = "C:\\Users\\mnriz\\source\\repos\\Debi\\Debi\\Images\\";
+
+                using (MemoryStream ms = new MemoryStream(imgbytes))
+                {
+                    Image pic = Image.FromStream(ms);
+
+                    string path = DefaultImagePath + $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.jpg";
+                    pic.Save(path);
+                    return path;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            return "";
+        }
+        private string ImageToBase64(string img)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine(img);
+                using (Image image = Image.FromFile(img))
+                {
+                    using (MemoryStream m = new MemoryStream())
+                    {
+                        image.Save(m, image.RawFormat);
+                        byte[] imageBytes = m.ToArray();
+
+                        // Convert byte[] to Base64 String
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        return base64String;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return "";
+        }
+
         //get one hotel
         [WebMethod]
         [System.Xml.Serialization.XmlInclude(typeof(Model.Hotel))]
@@ -35,6 +83,11 @@ namespace Debi.APIs
                 {
                     if (reader.Read())
                     {
+
+                        System.Diagnostics.Debug.WriteLine("START");
+                        string base64 = ImageToBase64(reader.GetString("image"));
+                        System.Diagnostics.Debug.WriteLine("END");
+
                         Model.Hotel hotel = new Model.Hotel()
                         {
                             HotelID = reader.GetInt32("hotel_id"),
@@ -42,7 +95,7 @@ namespace Debi.APIs
                             City = reader.GetString("city"),
                             Contact = reader.GetString("contact"),
                             Country = reader.GetString("country"),
-                            Image = reader.GetString("image"),
+                            Image = base64,
                             Name = reader.GetString("name"),
                             UserID = reader.GetInt32("user_id"),
                         };
@@ -87,6 +140,11 @@ namespace Debi.APIs
                 {
                     while (reader.Read())
                     {
+
+                        System.Diagnostics.Debug.WriteLine("START");
+                        string base64 = ImageToBase64(reader.GetString("image"));
+                        System.Diagnostics.Debug.WriteLine("END");
+
                         Model.Hotel hotel = new Model.Hotel
                         {
                             HotelID = reader.GetInt32("hotel_id"),
@@ -94,7 +152,7 @@ namespace Debi.APIs
                             City = reader.GetString("city"),
                             Contact = reader.GetString("contact"),
                             Country = reader.GetString("country"),
-                            Image = reader.GetString("image"),
+                            Image = base64,
                             Name = reader.GetString("name"),
                             UserID = reader.GetInt32("user_id"),
                         };
@@ -132,7 +190,7 @@ namespace Debi.APIs
             {
                 List<String> cities = new List<String>();
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT city FROM `hotel` ";
+                cmd.CommandText = "SELECT DISTINCT(city) FROM `hotel` ";
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 try
@@ -173,7 +231,7 @@ namespace Debi.APIs
             {
                 List<String> countries = new List<String>();
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT country FROM `hotel` ";
+                cmd.CommandText = "SELECT DISTINCT(country) FROM `hotel` ";
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 try
@@ -281,7 +339,7 @@ namespace Debi.APIs
         //get all rooms
         [WebMethod]
         [System.Xml.Serialization.XmlInclude(typeof(List<Model.Room>))]
-        public Object get_rooms()
+        public Object get_rooms(int id)
         {
             if (conn != null)
             {
@@ -291,7 +349,8 @@ namespace Debi.APIs
                     "INNER JOIN room_type ON room_type.roomtype_id = room.roomtype_id " +
                     "INNER JOIN room_facility ON room.room_id = room_facility.room_id " +
                     "INNER JOIN facility ON facility.facility_id = room_facility.facility_id " +
-                    "GROUP BY (room.room_id)";
+                    "WHERE room.hotel_id = " + id + " " +
+                    "GROUP BY (room.room_id) ";
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 try
@@ -327,7 +386,6 @@ namespace Debi.APIs
                             Roomtype = reader.GetString("roomtype"),
                             Roomtype_id = reader.GetInt32("roomtype_id"),
                             Facilities = facilities,
-
                         };
                         rooms.Add(room);
                     }
@@ -455,7 +513,6 @@ namespace Debi.APIs
                 return ("Database Error");
             }
         }
-
 
     }
 }
