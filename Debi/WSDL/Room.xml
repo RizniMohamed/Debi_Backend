@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="get_room">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_roomResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_roomResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RoomType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Room">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RoomID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Booked_date" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Price" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Hotel_id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Roomtype_id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Roomtype" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Facilities" type="tns:ArrayOfFacility" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfFacility">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Facility" nillable="true" type="tns:Facility" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Facility">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRoom">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Room" nillable="true" type="tns:Room" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRoomType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RoomType" nillable="true" type="tns:RoomType" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="get_rooms">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_roomsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_roomsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_facilities">
+        <s:complexType />
+      </s:element>
+      <s:element name="get_facilitiesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_facilitiesResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_roomtypes">
+        <s:complexType />
+      </s:element>
+      <s:element name="get_roomtypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_roomtypesResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="put_room">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="roomID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="booked_date" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="price" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="image" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="hotel_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="roomtype_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="facilityID" type="tns:ArrayOfInt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="put_roomResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="put_roomResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="delete_room">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="roomID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="delete_roomResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="delete_roomResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="post_room">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="booked_date" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="price" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="image" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="hotel_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="roomtype_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="facilityID" type="tns:ArrayOfInt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="post_roomResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="post_roomResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="get_roomSoapIn">
+    <wsdl:part name="parameters" element="tns:get_room" />
+  </wsdl:message>
+  <wsdl:message name="get_roomSoapOut">
+    <wsdl:part name="parameters" element="tns:get_roomResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_roomsSoapIn">
+    <wsdl:part name="parameters" element="tns:get_rooms" />
+  </wsdl:message>
+  <wsdl:message name="get_roomsSoapOut">
+    <wsdl:part name="parameters" element="tns:get_roomsResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_facilitiesSoapIn">
+    <wsdl:part name="parameters" element="tns:get_facilities" />
+  </wsdl:message>
+  <wsdl:message name="get_facilitiesSoapOut">
+    <wsdl:part name="parameters" element="tns:get_facilitiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_roomtypesSoapIn">
+    <wsdl:part name="parameters" element="tns:get_roomtypes" />
+  </wsdl:message>
+  <wsdl:message name="get_roomtypesSoapOut">
+    <wsdl:part name="parameters" element="tns:get_roomtypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="put_roomSoapIn">
+    <wsdl:part name="parameters" element="tns:put_room" />
+  </wsdl:message>
+  <wsdl:message name="put_roomSoapOut">
+    <wsdl:part name="parameters" element="tns:put_roomResponse" />
+  </wsdl:message>
+  <wsdl:message name="delete_roomSoapIn">
+    <wsdl:part name="parameters" element="tns:delete_room" />
+  </wsdl:message>
+  <wsdl:message name="delete_roomSoapOut">
+    <wsdl:part name="parameters" element="tns:delete_roomResponse" />
+  </wsdl:message>
+  <wsdl:message name="post_roomSoapIn">
+    <wsdl:part name="parameters" element="tns:post_room" />
+  </wsdl:message>
+  <wsdl:message name="post_roomSoapOut">
+    <wsdl:part name="parameters" element="tns:post_roomResponse" />
+  </wsdl:message>
+  <wsdl:portType name="RoomSoap">
+    <wsdl:operation name="get_room">
+      <wsdl:input message="tns:get_roomSoapIn" />
+      <wsdl:output message="tns:get_roomSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_rooms">
+      <wsdl:input message="tns:get_roomsSoapIn" />
+      <wsdl:output message="tns:get_roomsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_facilities">
+      <wsdl:input message="tns:get_facilitiesSoapIn" />
+      <wsdl:output message="tns:get_facilitiesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_roomtypes">
+      <wsdl:input message="tns:get_roomtypesSoapIn" />
+      <wsdl:output message="tns:get_roomtypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="put_room">
+      <wsdl:input message="tns:put_roomSoapIn" />
+      <wsdl:output message="tns:put_roomSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="delete_room">
+      <wsdl:input message="tns:delete_roomSoapIn" />
+      <wsdl:output message="tns:delete_roomSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="post_room">
+      <wsdl:input message="tns:post_roomSoapIn" />
+      <wsdl:output message="tns:post_roomSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RoomSoap" type="tns:RoomSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="get_room">
+      <soap:operation soapAction="http://tempuri.org/get_room" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_rooms">
+      <soap:operation soapAction="http://tempuri.org/get_rooms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_facilities">
+      <soap:operation soapAction="http://tempuri.org/get_facilities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_roomtypes">
+      <soap:operation soapAction="http://tempuri.org/get_roomtypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="put_room">
+      <soap:operation soapAction="http://tempuri.org/put_room" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="delete_room">
+      <soap:operation soapAction="http://tempuri.org/delete_room" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="post_room">
+      <soap:operation soapAction="http://tempuri.org/post_room" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="RoomSoap12" type="tns:RoomSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="get_room">
+      <soap12:operation soapAction="http://tempuri.org/get_room" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_rooms">
+      <soap12:operation soapAction="http://tempuri.org/get_rooms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_facilities">
+      <soap12:operation soapAction="http://tempuri.org/get_facilities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_roomtypes">
+      <soap12:operation soapAction="http://tempuri.org/get_roomtypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="put_room">
+      <soap12:operation soapAction="http://tempuri.org/put_room" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="delete_room">
+      <soap12:operation soapAction="http://tempuri.org/delete_room" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="post_room">
+      <soap12:operation soapAction="http://tempuri.org/post_room" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Room">
+    <wsdl:port name="RoomSoap" binding="tns:RoomSoap">
+      <soap:address location="https://localhost:44316/APIs/Room.asmx" />
+    </wsdl:port>
+    <wsdl:port name="RoomSoap12" binding="tns:RoomSoap12">
+      <soap12:address location="https://localhost:44316/APIs/Room.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

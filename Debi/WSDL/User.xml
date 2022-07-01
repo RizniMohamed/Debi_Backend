@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="post_auth">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="post_authResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="post_authResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="User">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="UserId" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Contact" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Nic" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="RoleID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AuthID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Role" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUser">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="User" nillable="true" type="tns:User" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="get_user">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_userResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_userResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_users">
+        <s:complexType />
+      </s:element>
+      <s:element name="get_usersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_usersResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="post_user">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="image" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="contact" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="nic" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="roleID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="post_userResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="post_userResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="put_user">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="image" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="contact" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="nic" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="roleID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="put_userResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="put_userResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="put_auth">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="put_authResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="put_authResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="delete_user">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="delete_userResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="delete_userResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="post_authSoapIn">
+    <wsdl:part name="parameters" element="tns:post_auth" />
+  </wsdl:message>
+  <wsdl:message name="post_authSoapOut">
+    <wsdl:part name="parameters" element="tns:post_authResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_userSoapIn">
+    <wsdl:part name="parameters" element="tns:get_user" />
+  </wsdl:message>
+  <wsdl:message name="get_userSoapOut">
+    <wsdl:part name="parameters" element="tns:get_userResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_usersSoapIn">
+    <wsdl:part name="parameters" element="tns:get_users" />
+  </wsdl:message>
+  <wsdl:message name="get_usersSoapOut">
+    <wsdl:part name="parameters" element="tns:get_usersResponse" />
+  </wsdl:message>
+  <wsdl:message name="post_userSoapIn">
+    <wsdl:part name="parameters" element="tns:post_user" />
+  </wsdl:message>
+  <wsdl:message name="post_userSoapOut">
+    <wsdl:part name="parameters" element="tns:post_userResponse" />
+  </wsdl:message>
+  <wsdl:message name="put_userSoapIn">
+    <wsdl:part name="parameters" element="tns:put_user" />
+  </wsdl:message>
+  <wsdl:message name="put_userSoapOut">
+    <wsdl:part name="parameters" element="tns:put_userResponse" />
+  </wsdl:message>
+  <wsdl:message name="put_authSoapIn">
+    <wsdl:part name="parameters" element="tns:put_auth" />
+  </wsdl:message>
+  <wsdl:message name="put_authSoapOut">
+    <wsdl:part name="parameters" element="tns:put_authResponse" />
+  </wsdl:message>
+  <wsdl:message name="delete_userSoapIn">
+    <wsdl:part name="parameters" element="tns:delete_user" />
+  </wsdl:message>
+  <wsdl:message name="delete_userSoapOut">
+    <wsdl:part name="parameters" element="tns:delete_userResponse" />
+  </wsdl:message>
+  <wsdl:portType name="UserSoap">
+    <wsdl:operation name="post_auth">
+      <wsdl:input message="tns:post_authSoapIn" />
+      <wsdl:output message="tns:post_authSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_user">
+      <wsdl:input message="tns:get_userSoapIn" />
+      <wsdl:output message="tns:get_userSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_users">
+      <wsdl:input message="tns:get_usersSoapIn" />
+      <wsdl:output message="tns:get_usersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="post_user">
+      <wsdl:input message="tns:post_userSoapIn" />
+      <wsdl:output message="tns:post_userSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="put_user">
+      <wsdl:input message="tns:put_userSoapIn" />
+      <wsdl:output message="tns:put_userSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="put_auth">
+      <wsdl:input message="tns:put_authSoapIn" />
+      <wsdl:output message="tns:put_authSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="delete_user">
+      <wsdl:input message="tns:delete_userSoapIn" />
+      <wsdl:output message="tns:delete_userSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UserSoap" type="tns:UserSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="post_auth">
+      <soap:operation soapAction="http://tempuri.org/post_auth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_user">
+      <soap:operation soapAction="http://tempuri.org/get_user" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_users">
+      <soap:operation soapAction="http://tempuri.org/get_users" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="post_user">
+      <soap:operation soapAction="http://tempuri.org/post_user" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="put_user">
+      <soap:operation soapAction="http://tempuri.org/put_user" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="put_auth">
+      <soap:operation soapAction="http://tempuri.org/put_auth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="delete_user">
+      <soap:operation soapAction="http://tempuri.org/delete_user" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="UserSoap12" type="tns:UserSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="post_auth">
+      <soap12:operation soapAction="http://tempuri.org/post_auth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_user">
+      <soap12:operation soapAction="http://tempuri.org/get_user" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_users">
+      <soap12:operation soapAction="http://tempuri.org/get_users" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="post_user">
+      <soap12:operation soapAction="http://tempuri.org/post_user" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="put_user">
+      <soap12:operation soapAction="http://tempuri.org/put_user" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="put_auth">
+      <soap12:operation soapAction="http://tempuri.org/put_auth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="delete_user">
+      <soap12:operation soapAction="http://tempuri.org/delete_user" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="User">
+    <wsdl:port name="UserSoap" binding="tns:UserSoap">
+      <soap:address location="https://localhost:44316/APIs/User.asmx" />
+    </wsdl:port>
+    <wsdl:port name="UserSoap12" binding="tns:UserSoap12">
+      <soap12:address location="https://localhost:44316/APIs/User.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

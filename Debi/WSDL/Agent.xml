@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="get_hotel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_hotelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_hotelResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RoomType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Room">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RoomID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Booked_date" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Price" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Hotel_id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Roomtype_id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Roomtype" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Facilities" type="tns:ArrayOfFacility" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfFacility">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Facility" nillable="true" type="tns:Facility" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Facility">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Hotel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="HotelID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Contact" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfHotel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Hotel" nillable="true" type="tns:Hotel" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRoom">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Room" nillable="true" type="tns:Room" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRoomType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RoomType" nillable="true" type="tns:RoomType" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="get_hotels">
+        <s:complexType />
+      </s:element>
+      <s:element name="get_hotelsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_hotelsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_cities">
+        <s:complexType />
+      </s:element>
+      <s:element name="get_citiesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_citiesResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_countries">
+        <s:complexType />
+      </s:element>
+      <s:element name="get_countriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_countriesResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_room">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_roomResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_roomResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_rooms">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_roomsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_roomsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_facilities">
+        <s:complexType />
+      </s:element>
+      <s:element name="get_facilitiesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_facilitiesResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_roomtypes">
+        <s:complexType />
+      </s:element>
+      <s:element name="get_roomtypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_roomtypesResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="get_hotelSoapIn">
+    <wsdl:part name="parameters" element="tns:get_hotel" />
+  </wsdl:message>
+  <wsdl:message name="get_hotelSoapOut">
+    <wsdl:part name="parameters" element="tns:get_hotelResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_hotelsSoapIn">
+    <wsdl:part name="parameters" element="tns:get_hotels" />
+  </wsdl:message>
+  <wsdl:message name="get_hotelsSoapOut">
+    <wsdl:part name="parameters" element="tns:get_hotelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_citiesSoapIn">
+    <wsdl:part name="parameters" element="tns:get_cities" />
+  </wsdl:message>
+  <wsdl:message name="get_citiesSoapOut">
+    <wsdl:part name="parameters" element="tns:get_citiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_countriesSoapIn">
+    <wsdl:part name="parameters" element="tns:get_countries" />
+  </wsdl:message>
+  <wsdl:message name="get_countriesSoapOut">
+    <wsdl:part name="parameters" element="tns:get_countriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_roomSoapIn">
+    <wsdl:part name="parameters" element="tns:get_room" />
+  </wsdl:message>
+  <wsdl:message name="get_roomSoapOut">
+    <wsdl:part name="parameters" element="tns:get_roomResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_roomsSoapIn">
+    <wsdl:part name="parameters" element="tns:get_rooms" />
+  </wsdl:message>
+  <wsdl:message name="get_roomsSoapOut">
+    <wsdl:part name="parameters" element="tns:get_roomsResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_facilitiesSoapIn">
+    <wsdl:part name="parameters" element="tns:get_facilities" />
+  </wsdl:message>
+  <wsdl:message name="get_facilitiesSoapOut">
+    <wsdl:part name="parameters" element="tns:get_facilitiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_roomtypesSoapIn">
+    <wsdl:part name="parameters" element="tns:get_roomtypes" />
+  </wsdl:message>
+  <wsdl:message name="get_roomtypesSoapOut">
+    <wsdl:part name="parameters" element="tns:get_roomtypesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="AgentSoap">
+    <wsdl:operation name="get_hotel">
+      <wsdl:input message="tns:get_hotelSoapIn" />
+      <wsdl:output message="tns:get_hotelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_hotels">
+      <wsdl:input message="tns:get_hotelsSoapIn" />
+      <wsdl:output message="tns:get_hotelsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_cities">
+      <wsdl:input message="tns:get_citiesSoapIn" />
+      <wsdl:output message="tns:get_citiesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_countries">
+      <wsdl:input message="tns:get_countriesSoapIn" />
+      <wsdl:output message="tns:get_countriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_room">
+      <wsdl:input message="tns:get_roomSoapIn" />
+      <wsdl:output message="tns:get_roomSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_rooms">
+      <wsdl:input message="tns:get_roomsSoapIn" />
+      <wsdl:output message="tns:get_roomsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_facilities">
+      <wsdl:input message="tns:get_facilitiesSoapIn" />
+      <wsdl:output message="tns:get_facilitiesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_roomtypes">
+      <wsdl:input message="tns:get_roomtypesSoapIn" />
+      <wsdl:output message="tns:get_roomtypesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AgentSoap" type="tns:AgentSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="get_hotel">
+      <soap:operation soapAction="http://tempuri.org/get_hotel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_hotels">
+      <soap:operation soapAction="http://tempuri.org/get_hotels" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_cities">
+      <soap:operation soapAction="http://tempuri.org/get_cities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_countries">
+      <soap:operation soapAction="http://tempuri.org/get_countries" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_room">
+      <soap:operation soapAction="http://tempuri.org/get_room" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_rooms">
+      <soap:operation soapAction="http://tempuri.org/get_rooms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_facilities">
+      <soap:operation soapAction="http://tempuri.org/get_facilities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_roomtypes">
+      <soap:operation soapAction="http://tempuri.org/get_roomtypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="AgentSoap12" type="tns:AgentSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="get_hotel">
+      <soap12:operation soapAction="http://tempuri.org/get_hotel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_hotels">
+      <soap12:operation soapAction="http://tempuri.org/get_hotels" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_cities">
+      <soap12:operation soapAction="http://tempuri.org/get_cities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_countries">
+      <soap12:operation soapAction="http://tempuri.org/get_countries" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_room">
+      <soap12:operation soapAction="http://tempuri.org/get_room" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_rooms">
+      <soap12:operation soapAction="http://tempuri.org/get_rooms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_facilities">
+      <soap12:operation soapAction="http://tempuri.org/get_facilities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_roomtypes">
+      <soap12:operation soapAction="http://tempuri.org/get_roomtypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Agent">
+    <wsdl:port name="AgentSoap" binding="tns:AgentSoap">
+      <soap:address location="https://localhost:44316/APIs/Agent.asmx" />
+    </wsdl:port>
+    <wsdl:port name="AgentSoap12" binding="tns:AgentSoap12">
+      <soap12:address location="https://localhost:44316/APIs/Agent.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
